@@ -2,18 +2,22 @@
 <head>
 <meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
-<meta name=description content>
-<meta property="og:title" content="graeme. hello">
-<meta property="og:description" content>
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://graemephi.github.io/">
+<meta name=description content="This post has two things:
+ Two somewhat obscure non-linear invertible operations that work on only part of a register, and A fast stateless random permutation generator that uses them, and passes some statistical tests for RNGs you may have seen before  The ideas are pretty simple so the hope is you can also get an intuition for how to think about the problem, which is the best thing you can get out of this post.">
+<meta property="og:title" content="Generating Unique Random Numbers">
+<meta property="og:description" content="This post has two things:
+ Two somewhat obscure non-linear invertible operations that work on only part of a register, and A fast stateless random permutation generator that uses them, and passes some statistical tests for RNGs you may have seen before  The ideas are pretty simple so the hope is you can also get an intuition for how to think about the problem, which is the best thing you can get out of this post.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://graemephi.github.io/posts/unique-random-numbers/"><meta property="article:section" content="posts">
+<meta property="article:published_time" content="2024-09-27T20:08:28+00:00">
+<meta property="article:modified_time" content="2024-09-27T20:08:28+00:00">
 <meta name=twitter:card content="summary">
-<meta name=twitter:title content="graeme. hello">
-<meta name=twitter:description content>
+<meta name=twitter:title content="Generating Unique Random Numbers">
+<meta name=twitter:description content="This post has two things:
+ Two somewhat obscure non-linear invertible operations that work on only part of a register, and A fast stateless random permutation generator that uses them, and passes some statistical tests for RNGs you may have seen before  The ideas are pretty simple so the hope is you can also get an intuition for how to think about the problem, which is the best thing you can get out of this post.">
 <meta name=twitter:site content="@graemephi">
 <meta name=generator content="Hugo 0.90.0-DEV">
-<title>graeme - hello</title>
-<link rel=alternate type=application/rss+xml href=https://graemephi.github.io/index.xml title="graeme. hello">
+<title>Generating Unique Random Numbers - graeme. hello</title>
 <link href=/css/katex.min.css rel=stylesheet type=text/css>
 <style>body{background-color:#fffdfc;font-family:Georgia,times new roman,serif;font-size:1em;margin:0 2em;line-height:1.4em}body *{margin-left:auto;margin-right:auto}a.footnote-backref{visibility:hidden;font-size:.66em}a.footnote-backref::before{visibility:visible;content:"back"}.content{flex:initial;width:42em}@media(max-width:49.1228em){.content{width:85vw}}.about{margin:0}.page-header{align-items:center;display:flex;justify-content:space-between}.name{margin-left:1em;margin-right:auto}.post-header{align-items:baseline;color:#5a5857;display:flex;flex-flow:wrap;justify-content:space-between;line-height:.5em}a{color:#000;text-decoration-color:#5a5857;text-decoration:underline}a:hover{color:#ffa000;text-decoration-color:#d18400}.icon:hover{fill:#ffa000}h1>a,h2>a,h3>a,h4>a,a.icon{text-decoration:none}hr{border:0;height:0;border-top:1px solid rgba(87,44,0,.1)}.svgi>svg{vertical-align:middle}code{font-family:consolas;font-size:.8em;overflow-x:scroll;max-width:100%}blockquote.aside{padding:.5em 1.5em;margin:1em -1em;display:block;border-radius:5px;background-color:#fbf3ef;border-style:outset;border-color:hsla(20,58%,46%,4%)}.tags{align-items:baseline;color:#5a5857;display:flex;flex-flow:wrap;line-height:1em;list-style-type:none;padding:0}.tags.post-tags{font-size:.9em;justify-content:flex-end;margin:0}.tags.all-tags{justify-content:flex-start;margin:-1em 0}.list-tags{margin:-1em 0}.tags a{color:#2d2c2b}.post-tags a{text-decoration:none}.tags>li{margin:0 .1em}.post{margin:2em auto}.post img{display:block;margin:0 auto;max-width:calc(100vw - 1em);height:auto}.text-align-right{text-align:right}.rss-link{font-size:.8em;text-align:right}.post-title{line-height:1em}.katex{font-size:large}pre.terminal,pre>code.language-terminal{background:#272822;padding:.66em 1em;padding:1em 2em;margin:1em -1em;color:#f8f8f2;display:block;border-radius:5px}p code{background:#feeee7;padding:.1em .2em}.katex-display>.katex{font-size:larger}.highlight>pre{position:relative;padding:1em 2em;margin:1em -1em;overflow-x:auto}.highlight code{font-size:.83em}.img-flex{background-color:#fffdfc;display:flex;justify-content:center;flex-wrap:wrap;position:relative;width:100vw;left:calc(50% - 50vw)}.img-flex>img{margin:.5em}@media(min-width:84em){.img-flex{width:84em;left:calc(50% - 42em)}}.katex-display>.katex{max-width:100%;overflow-x:scroll}table{margin:1em -1em;border-collapse:separate;border-spacing:0;border-radius:5px;width:calc(100% + 2em);overflow-x:scroll;border:1px solid hsla(20,58%,46%,.2)}th,td{padding:.5em 1em;border-right:1px solid hsla(20,58%,46%,.1)}th{font-weight:700;border-bottom:1px solid hsla(20,58%,46%,.1);background-color:#fbf3ef;text-align:left}td{border-bottom:1px solid hsla(20,58%,46%,.1)}tr:last-child td{border-bottom:none}td:last-child,th:last-child{border-right:none}</style>
 </head>
