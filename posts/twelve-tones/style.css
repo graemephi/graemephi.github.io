@@ -1,0 +1,75 @@
+
+.string-container {
+    position: relative;
+    overflow: hidden;
+    height: 60px;
+}
+.string-overflow {
+    position: absolute;
+    width: 600px;
+    margin-left: 28px;
+    overflow: visible;
+}
+.string {
+    position: absolute;
+    width: 600px;
+    height: 2px;
+    background-color: black;
+    top: 30px;
+}
+.note {
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    color: white;
+    text-shadow: 2px 2px 4px black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 0.707em;
+    top: 16px;
+    transform: translateX(-14px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+.down {
+    transform: translateX(-14px) translateY(12px);
+}
+.up {
+    transform: translateX(-14px) translateY(-12px);
+}
+.marker {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: #000;
+    display: flex;
+    top: 28px;
+    transform: translateX(-3px);
+}
+.midpoint {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #000000;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    top: 25px;
+    transform: translateX(-6px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+.blue {
+    background-color: #0073e6;
+}
+.green {
+    background-color: #89ce00;
+}
+.red {
+    background-color: #e6308a;
+}
