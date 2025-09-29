@@ -77,10 +77,10 @@ X[<span style=color:#ae81ff>1</span>:<span style=color:#f92672>-</span><span sty
 <div style=display:flex;justify-content:center>
 <img src=/posts/spectrogram-phases/06_diff_unwrap.png width=823 height=438 loading=lazy>
 </div>
-<p>That&rsquo;s a lot of structure. To get this I unwrapped the phases and computed deltas along the time dimension:</p>
+<p>That&rsquo;s a lot of structure. To get this I unwrapped the phases and computed deltas, both along the time dimension:</p>
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#75715e># Xs : shape (window, bin)</span>
 phases <span style=color:#f92672>=</span> np<span style=color:#f92672>.</span>angle(Xs)
-normalized_phase_deltas <span style=color:#f92672>=</span> np<span style=color:#f92672>.</span>diff(np<span style=color:#f92672>.</span>unwrap(phases, axis<span style=color:#f92672>=</span><span style=color:#ae81ff>0</span>), prepend<span style=color:#f92672>=</span><span style=color:#ae81ff>0</span>, axis<span style=color:#f92672>=</span><span style=color:#ae81ff>0</span>)
+phase_deltas <span style=color:#f92672>=</span> np<span style=color:#f92672>.</span>diff(np<span style=color:#f92672>.</span>unwrap(phases, axis<span style=color:#f92672>=</span><span style=color:#ae81ff>0</span>), prepend<span style=color:#f92672>=</span><span style=color:#ae81ff>0</span>, axis<span style=color:#f92672>=</span><span style=color:#ae81ff>0</span>)
 </code></pre></div><p>The horizontal banding is pretty weird. This happens because higher bins' phases advance faster than lower bins, so their deltas are just bigger. We can get a normalized representation by dividing out the rate at which the sine under that bin advances:</p>
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>n <span style=color:#f92672>=</span> len(window)
 dt <span style=color:#f92672>=</span> n <span style=color:#f92672>//</span> <span style=color:#ae81ff>4</span> <span style=color:#75715e># spectrogram step size</span>
@@ -88,7 +88,7 @@ normalized_frequencies <span style=color:#f92672>=</span> np<span style=color:#f
 phase_normalizer <span style=color:#f92672>=</span> np<span style=color:#f92672>.</span>angle(np<span style=color:#f92672>.</span>exp(<span style=color:#ae81ff>2</span>j <span style=color:#f92672>*</span> np<span style=color:#f92672>.</span>pi <span style=color:#f92672>*</span> normalized_frequencies <span style=color:#f92672>*</span> dt))
 
 <span style=color:#75715e># ...</span>
-normalized_phase_deltas <span style=color:#f92672>=</span> np<span style=color:#f92672>.</span>diff(np<span style=color:#f92672>.</span>unwrap(phases, axis<span style=color:#f92672>=</span><span style=color:#ae81ff>0</span>), prepend<span style=color:#f92672>=</span><span style=color:#ae81ff>0</span>, axis<span style=color:#f92672>=</span><span style=color:#ae81ff>0</span>) <span style=color:#f92672>/</span> phase_normalizer
+normalized_phase_deltas <span style=color:#f92672>=</span> phase_deltas <span style=color:#f92672>/</span> phase_normalizer
 </code></pre></div><p>And that looks like this. Please ignore the incorrect units.</p>
 <div style=display:flex;justify-content:center>
 <img src=/posts/spectrogram-phases/07_normalized_diff_unwrap.png width=823 height=438 loading=lazy>
