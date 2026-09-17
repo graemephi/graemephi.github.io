@@ -1,0 +1,229 @@
+.audio-visualizer {
+    border-left: 1px solid #ccc;
+    box-sizing: border-box;
+    inset: 0 0 0 auto;
+    position: fixed;
+    width: 40rem;
+}
+
+.visualizer-bg {
+    background: #111;
+    position: relative;
+}
+
+.audio-visualizer canvas {
+    cursor: pointer;
+    display: block;
+    height: 8rem;
+    min-height: 8rem;
+    width: 100%;
+}
+
+.audio-visualizer canvas:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: -2px;
+}
+
+.visualizer-message {
+    color: #ccc;
+    inset: 50% auto auto 50%;
+    pointer-events: none;
+    position: absolute;
+    width: 8em;
+    margin: 0 auto;
+}
+
+.audio-visualizer.is-playing .visualizer-message {
+    display: none;
+}
+
+.frequency-axis {
+    background: #111;
+    color: rgba(255, 255, 255, 0.65);
+    display: grid;
+    font-size: 0.707rem;
+    grid-template-columns: var(--split) 1fr;
+    position: relative;
+}
+
+.frequency-axis [data-axis="f0"] {
+    color: #111;
+}
+
+.frequency-axis [data-axis="f1"] {
+    left: var(--split);
+    position: absolute;
+    transform: translateX(-50%);
+}
+
+.audio-controls {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 0.5rem;
+}
+
+.audio-controls audio {
+    display: block;
+    width: 100%;
+}
+
+.audio-source-row {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.5rem;
+}
+
+.audio-source {
+    margin: 0rem 1rem;
+}
+
+.audio-file {
+    max-width: 50%;
+}
+
+
+.control-groups {
+    padding: 1.0rem 2.0rem;
+}
+
+.control-group {
+    border: 0;
+    margin: 0;
+    min-width: 0;
+    padding: 0;
+}
+
+.control-group + .control-group {
+    margin-top: 2rem;
+}
+
+.control-group legend {
+    box-sizing: border-box;
+    width: 100%;
+    text-align: center;
+}
+
+.control {
+    align-items: center;
+    display: flex;
+    margin-top: 0.5rem;
+}
+
+.control > span {
+    flex: 3;
+    min-width: 0;
+    white-space: nowrap;
+}
+
+.control input[type="range"] {
+    --range-position: 50%;
+    appearance: none;
+    background: linear-gradient(to right,
+        #222 0 var(--range-position),
+        #ccc var(--range-position) 100%);
+    border: 0;
+    border-radius: 0;
+    flex: 6;
+    height: 8px;
+    margin: 0;
+    min-width: 0;
+    padding: 0;
+}
+
+.control input[type="range"]::-webkit-slider-runnable-track {
+    background: transparent;
+}
+
+.control input[type="range"]::-webkit-slider-thumb {
+    appearance: none;
+    background: transparent;
+    border: 0;
+    width: 1px;
+}
+
+.control input[type="range"]::-moz-range-track,
+.control input[type="range"]::-moz-range-progress {
+    background: transparent;
+}
+
+.control input[type="range"]::-moz-range-thumb {
+    background: transparent;
+    border: 0;
+}
+
+.control input[type="range"] {
+    outline: 1px solid;
+}
+
+.control output {
+    flex: 1;
+    min-width: 0;
+    white-space: nowrap;
+    margin: 0em 1em;
+}
+
+.preset-control {
+    align-items: baseline;
+    border-bottom: 1px solid #ccc;
+    cursor: pointer;
+    display: flex;
+    gap: 0.5rem;
+    padding: 1rem;
+}
+
+.preset-control input {
+    accent-color: #222;
+    flex: none;
+    margin: 0;
+}
+
+.preset-control > span {
+    align-items: baseline;
+    display: flex;
+    gap: 0.5rem;
+    margin: 0;
+}
+
+@media (width > 100em) {
+    body:has(#audio-visualizer) {
+        margin-right: 28rem;
+    }
+
+    body:has(#audio-visualizer) .content {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 100em) {
+
+    #audio-visualizer {
+        border: 0;
+        float: none;
+        inset: 0 0 auto;
+        margin: 0;
+        overflow: hidden;
+        position: fixed;
+        width: 100%;
+        background: #111;
+        z-index: 1000;
+    }
+
+    #audio-visualizer .visualizer-bg {
+        height: 4rem;
+        margin-inline: auto;
+        overflow: hidden;
+        width: 40rem;
+    }
+
+    #audio-visualizer canvas {
+        bottom: 0;
+        left: 0;
+        position: absolute;
+    }
+
+    #audio-visualizer .audio-controls,
+    #audio-visualizer .visualizer-controls,
+    #audio-visualizer .frequency-axis {
+        display: none;
+    }
+}
